@@ -1,0 +1,10 @@
+front end
+npm install --save font-awesome
+npm i formik
+npm install react-router-dom
+npm install bootstrap yup axios
+
+back end
+for creation not all time
+npx express-generator
+

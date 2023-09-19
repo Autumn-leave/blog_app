@@ -7,4 +7,9 @@ npm install bootstrap yup axios
 back end
 for creation not all time
 npx express-generator
+npm i cors
+npm i
+npm i sequelize
+npm i pg pg-hstore
+
 

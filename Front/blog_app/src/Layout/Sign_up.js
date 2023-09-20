@@ -30,14 +30,15 @@ const Sign_up = () => {
     const nav =useNavigate();
   const handleSubmit = async (values, { resetForm }) => {
     { console.log(values) }
-    const response1 = await axios.post('http://localhost:5000/users/', {
+    const response1 = await axios.post('http://localhost:8080/users/register', {
 
       name: values.name,
       username: values.username,
       password: values.password,
+      phone:values.phone,
       email: values.email,
     }).then((res) => {
-      console.log(res);
+      console.log("res:",res);
       resetForm();
     }).catch((d) => {
       alert("Email ID or Username already exists!");
@@ -64,6 +65,7 @@ const Sign_up = () => {
               name: '',
               username: '',
               email: '',
+              phone: '',
               password: '',
               confirmPassword: '',
             }}
@@ -105,6 +107,18 @@ const Sign_up = () => {
 
                 </div>
                 <ErrorMessage name="email" component="div" className="text-danger" />
+              </div>
+              <div className='mb-3'>
+                <div className="input-group ">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="basic-addon1">
+                    <i className="fa fa-envelope icon"></i>
+                    </span>
+                  </div>
+                  <Field type="text" className="form-control" id="phone" name="phone" placeholder="Enter the Phone number" />
+
+                </div>
+                <ErrorMessage name="phone" component="div" className="text-danger" />
               </div>
               <div className='mb-3'>
                 <div className="input-group ">

@@ -16,18 +16,12 @@ const validationSchema = yup.object().shape({
 const Sign_in = () => {
     const nav = useNavigate();
     const handleSubmit = async (values) => {
-        const response1 = await axios.post('http://localhost:5000/users/login', {
+        const response1 = await axios.post('http://localhost:8080/users/loginUser', {
             email: values.email,
             password: values.password,
         }).then((d) => {
             console.log(d.data);
-            if (d.data.statusCode === 200) {
-              localStorage.setItem("user", JSON.stringify(d.data.myData));
-              console.log(d.data.myData);
-              nav('/Profile');
-             
-              
-            }
+            alert("success")
         }).catch((d) => {
             alert("Email ID or Password is wrong!");
         })

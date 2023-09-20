@@ -13,5 +13,12 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   }
 });
 
+const db = {};
+db.sequelize = sequelize;
+db.User_table = require("../model/User_table")(sequelize, Sequelize.DataTypes);
 
-module.exports = sequelize;
+db.sequelize.sync({ force: false }, () => {
+  console.log("Sync done");
+});
+
+module.exports = db;

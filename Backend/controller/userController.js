@@ -104,7 +104,6 @@ const loginUser = async (req, res) => {
                 Password: password
             }
             console.log(loginData)
-            // const hashed = bcrypt.hash(password,10)
 
             const user = await User.findOne({
                 where: { Email: loginData.Email }

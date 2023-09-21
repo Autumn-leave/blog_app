@@ -3,6 +3,8 @@ npm install --save font-awesome
 npm i formik
 npm install react-router-dom
 npm install bootstrap yup axios
+npm install --save react-draft-wysiwyg draft-js
+npm i draft-js
 
 back end
 for creation not all time

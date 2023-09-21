@@ -1,18 +1,21 @@
 const db = require("../database/sequelize");
 const User = db.User_table;
 const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
-console.log(User);
+const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
+// console.log(User);
 
 const createJwtToken = async (userExist) => {
-    const token = jwt.sign({ userExist }, 'meena$17', { expiresIn: '1h' })
+    
     return token
 }
 
 const userExists = async (data) => {
     try {
         const user = await User.findOne({
-            where: { Email: data.Email }
+            where: {[Op.or]:[
+                { Email: data.Email }
+            ]}
         });
         if (user) {
             return true;
@@ -70,11 +73,12 @@ const registerUser = async (req, res) => {
                         Username: username,
                         Email: email,
                         Phone: phone,
-                        Password: hashed
+                        Password: hashed,
                     }
                     // const token = await userController.createJwtToken(hashUser)
                     await User.create(hashUser).then(() => {
-                        res.status(200).json({ message: "sign up successfully" })
+                        // const token = jwt.sign( hashUser , 'meena$17', { expiresIn: '1h' })
+                        res.status(200).json({ message: "sign up successfully", token})
                     }).catch((error) => {
                         res.status(200).json({ message: "sign up failed" })
                     })
@@ -112,7 +116,12 @@ const loginUser = async (req, res) => {
 
             if (user) {
                 const validpassword = bcrypt.compare(loginData.Password, user.dataValues.Password).then(() => {
-                    res.status(200).json({ message: "Login", data: loginData })
+                    var logData = {
+                        Email: email,
+                        Password: user.dataValues.Password
+                    }
+                    const token = jwt.sign( logData , 'meena$17', { expiresIn: '1h' })
+                    res.status(200).json({ message: "Login",data: loginData, token })
                 }).catch(() => {
                     res.status(500).json({ message: "Invalid credentials" })
                 })

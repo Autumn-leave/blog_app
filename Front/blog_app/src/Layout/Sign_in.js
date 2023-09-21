@@ -20,7 +20,7 @@ const Sign_in = () => {
             email: values.email,
             password: values.password,
         }).then((d) => {
-            console.log(d.data);
+            console.log(d.data.data);
             alert("success")
         }).catch((d) => {
             alert("Email ID or Password is wrong!");

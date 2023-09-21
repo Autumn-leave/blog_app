@@ -38,12 +38,11 @@ const Sign_up = () => {
       phone:values.phone,
       email: values.email,
     }).then((res) => {
-      console.log("res:",res);
+      console.log("res:",res.data);
       resetForm();
     }).catch((d) => {
       alert("Email ID or Username already exists!");
     })
-    nav('/');
   };
 
     return (

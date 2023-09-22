@@ -5,10 +5,7 @@ const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 // console.log(User);
 
-const createJwtToken = async (userExist) => {
-    
-    return token
-}
+
 
 const userExists = async (data) => {
     try {
@@ -78,8 +75,9 @@ const registerUser = async (req, res) => {
                     // const token = await userController.createJwtToken(hashUser)
                     await User.create(hashUser).then(() => {
                         // const token = jwt.sign( hashUser , 'meena$17', { expiresIn: '1h' })
-                        res.status(200).json({ message: "sign up successfully", token})
+                        res.status(200).json({ message: "sign up successfully"})
                     }).catch((error) => {
+                        console.log(error)
                         res.status(200).json({ message: "sign up failed" })
                     })
 
@@ -119,7 +117,7 @@ const loginUser = async (req, res) => {
                         Email: email,
                         Password: user.dataValues.Password
                     }
-                    const token = jwt.sign( logData , 'meena$17', { expiresIn: '1h' })
+                    const token = jwt.sign( {logData} , 'meena$17', { expiresIn: '1h' })
                     res.status(200).json({ message: "Login",data: loginData, token })
                 }).catch(() => {
                     res.status(500).json({ message: "Invalid credentials" })
@@ -136,5 +134,4 @@ module.exports = {
     registerUser,
     loginUser,
     userExists,
-    createJwtToken,
 }

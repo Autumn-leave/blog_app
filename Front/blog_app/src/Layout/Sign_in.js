@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
+import { ToastContainer, toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate, Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
@@ -20,8 +21,9 @@ const Sign_in = () => {
             email: values.email,
             password: values.password,
         }).then((d) => {
-            console.log(d.data.data);
-            alert("success")
+            localStorage.setItem('authToken', d.data.token)
+            
+                nav('/Dashboard_home_page')
         }).catch((d) => {
             alert("Email ID or Password is wrong!");
         })
@@ -76,8 +78,10 @@ const Sign_in = () => {
                 <div className='buton'>
                     <button type="submit" className="btn form-control"><b>Login</b></button>
                 </div>
+              <br/><br />
                 <hr/>
-                <Link to={'/Sign_up'} className="link">Create New Account</Link>
+               <Link to={'/Sign_up'} className="links">Create New Account</Link>
+               
             </Form>
         </Formik>
         </div>

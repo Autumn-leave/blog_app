@@ -1,0 +1,6 @@
+.dashboard_size{
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

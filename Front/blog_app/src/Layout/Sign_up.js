@@ -146,8 +146,9 @@ const Sign_up = () => {
               <div className='buton'>
                 <button type="submit" className="btn form-control"><b>Sign Up</b></button>
               </div>
+              <br/><br />
               <hr/>
-              <Link to={'/'} className="link">Account Already Exists</Link>
+              <Link to={'/'} className="links">Account Already Exists</Link>
             </Form>
           </Formik>
         </div>

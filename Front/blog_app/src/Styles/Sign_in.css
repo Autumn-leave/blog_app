@@ -40,12 +40,17 @@ h3{
     color: black !important;
     background-color: orange !important;
 }
-.link{
-    color: black;
-    display: flex;
-    justify-content: center;
-    text-decoration: none !important;
+.links{
+     color: black;
+    /* display: flex;
+    justify-content: center; */
+    text-decoration: none !important; 
+    margin-left: 33% !important;
 }
+/* .linkto{
+    display: flex;
+    justify-content: center !important;
+} */
 .icon{
     font-size: 25px !important;
 }

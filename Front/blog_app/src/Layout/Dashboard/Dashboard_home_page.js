@@ -1,35 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { convertFromRaw, EditorState } from 'draft-js';
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import axios from "axios";
 import Dashboard_nav from "./Dashboard_nav";
 import Dashboard_card from "./Dashboard_card";
+import "../../Styles/Dashboard_card.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard_home_page = () => {
     const [blogcontent, setBlogcontent] = useState([]);
+    const nav = useNavigate()
 
-    const fetchBlogContent = async () => {
+    const fetchBlogContent = async (token) => {
         try {
-            const response = await axios.get("http://localhost:8080/dashboard/fetch");
+            const response = await axios.get("http://localhost:8080/dashboard/fetch", {headers: {Authorization: token}});
+            console.log(response.data);
             setBlogcontent(response.data.blogData);
         } catch (error) {
             alert("Error: " + error);
         }
     };
 
-    
+    const handleItemDeleted = (deletedItem) => {
+       
+        setBlogcontent((prevBlogcontent) =>
+            prevBlogcontent.filter((item) => item.blog_ID !== deletedItem.blog_ID)
+        );
+    };
 
     useEffect(() => {
-        fetchBlogContent();
+        // console.log("in useeffect");
+        const token = localStorage.getItem("authToken")
+        if(token!==null){
+            fetchBlogContent(token);
+        }
+        else{
+            localStorage.clear()
+            nav('/')
+        }
+        
     }, []);
 
     return (
         <div>
             <Dashboard_nav />
-            <Dashboard_card blogcontent={blogcontent}/>
+            <div className="Dashboardcontent">
+                <Dashboard_card blogcontent={blogcontent} onItemDeleted={handleItemDeleted} />
+            </div>
         </div>
-
     );
-}
+};
+
 export default Dashboard_home_page;

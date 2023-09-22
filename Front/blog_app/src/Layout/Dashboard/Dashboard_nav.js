@@ -14,12 +14,12 @@ const Dashboard_nav = () => {
                 <Container className="dashboardcontent">
                     <Navbar.Brand href="#home">Blogue</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="/Dashboard_home_page">Home</Nav.Link>
                         <Nav.Link href="/Dashboard_new_page">New</Nav.Link>
                         <Nav.Link href="/Dashboard_edit_page">Edit</Nav.Link>
-                        <Nav.Link href="#home">Bin</Nav.Link>
+                        <Nav.Link href="/Dashboard_bin">Bin</Nav.Link>
                     </Nav>
-                    <Navbar.Text><Link to={'/Sign_in'}><i class="fa fa-sign-out" aria-hidden="true"></i></Link></Navbar.Text>
+                    <Navbar.Text><Link to={'/'}><i class="fa fa-sign-out" aria-hidden="true"></i></Link></Navbar.Text>
                 </Container>
             </Navbar>
         </div>
@@ -27,3 +27,5 @@ const Dashboard_nav = () => {
 }
 
 export default Dashboard_nav;
+
+sessionStorage.clear()

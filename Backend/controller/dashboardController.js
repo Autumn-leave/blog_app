@@ -31,11 +31,11 @@ const createBlog = async (req, res) => {
     try {
         // const { user_id, title, content } = req.body;
         // if (user_id && title && content)
-        const { content } = req.body;
-        if (content) {
+        const { content,title } = req.body;
+        if (content && title) {
             var blogData = {
                 User_ID: "1",
-                Title: "captain",
+                Title: title,
                 Content: content
             }
             console.log("after blogData");
@@ -74,11 +74,11 @@ const fetchBlogContent = async (req, res) => {
     }
 }
 
-const editBlog = async (req, res) => {
+const deleteBlog = async (req, res) => {
     try {
-        const {Blog_ID } = req.body;
+        const {Blog_ID} = req.body;
         // console.log(req.params.Blog_ID,"BASBDK")
-        console.log("before");
+        console.log(Blog_ID);
         if (Blog_ID){
             console.log("before 000");
             await Blog.update(
@@ -97,9 +97,62 @@ const editBlog = async (req, res) => {
     }
 }
 
+const editBlog = async(req,res) => {
+    try{
+        const{Blog_ID,title,content} = req.body;
+        if(Blog_ID,title,content){
+            await Blog.update(
+                {
+                    Title: title,
+                    Content: content
+                },
+                {where : {blog_ID: Blog_ID}}
+            )
+            .then(()=>{
+                res.status(200).json({message: "Success of update"})
+            })
+            .catch(()=>{
+                res.status(200).json({message: "Failure of update"})
+            })
+        }
+        else{
+            res.status(200).json({message: "Empty data"})
+        }
+    }
+    catch(error){
+        res.status(500).json({message: "Internal error"})
+    }
+}
+
+const getEditBtn = async(req,res) => {
+    try{
+        const {Blog_ID} = req.params.blog_ID;
+        console.log(Blog_ID);
+        if(Blog_ID){
+            await Blog.findOne({
+                where: {blog_ID: Blog_ID}
+            })
+            .then(()=>{
+                res.status(200).json({message: "Success in getting"})
+            })
+            .catch(()=>{
+                res.status(200).json({message: "Failed to get"})
+            })
+        }
+        else{
+            res.status(200).json({message: "no data"})
+        }
+    }
+    catch(error){
+        res.status(500).json({message: "Internal error"})
+    }
+}
+
 module.exports = {
     createBlog,
     fetchBlogContent,
     userExists,
+    deleteBlog,
     editBlog,
+    getEditBtn,
 }

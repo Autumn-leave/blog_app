@@ -9,16 +9,24 @@ const verifyToken = async (token) => {
     try {
         console.log("in verify token");
         const result = await jwt.verify(token, 'meena$17');
-        if (result.error === "TokenExpiredError") {
-            return "Token Expired Error"
+        try{
+            if (result.logData) {
+                return result.logData;
+            }
+            else {
+                return false
+            }
         }
-        if (result.logData) {
-            console.log("success")
-            return result.logData;
+        catch (error) {
+            if(error.name === "TokenExpiredError")
+            {
+                return "TokenExpiredError"
+            }
+            else{
+                console.log(error);
+            }
         }
-        else {
-            return false
-        }
+        
     }
     catch (error) {
         console.log(error);
@@ -53,7 +61,7 @@ const createBlog = async (req, res) => {
     try {
         if (token) {
             const verifiedUser = await verifyToken(token);
-            if (verifiedUser) {
+            if (verifiedUser !== "TokenExpiredError" && verifiedUser == false) {
                 const email = verifiedUser.Email;
                 if (email) {
                     console.log(email);
@@ -85,6 +93,9 @@ const createBlog = async (req, res) => {
                     else {
                         res.status(200).json({ message: "Empty data" })
                     }
+                }
+                else if(verifiedUser === "TokenExpiredError"){
+                    res.json({message: "Time out!"})
                 }
                 else {
                     res.json({ message: "not verified user" })

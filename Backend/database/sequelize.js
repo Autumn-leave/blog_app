@@ -17,7 +17,12 @@ const db = {};
 db.sequelize = sequelize;
 db.User_table = require("../model/User_table")(sequelize, Sequelize.DataTypes);
 db.blog_table = require("../model/Blog_table")(sequelize, Sequelize.DataTypes)
-
+db.User_table.hasMany(db.blog_table, {
+  foreignKey: 'User_ID',
+})
+db.blog_table.belongsTo(db.User_table,{
+  foreignKey: 'User_ID'
+})
 db.sequelize.sync({ force: false }, () => {
   console.log("Sync done");
 });

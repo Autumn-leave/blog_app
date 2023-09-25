@@ -3,6 +3,7 @@ import axios from "axios";
 import { convertFromRaw } from 'draft-js';
 import "../../Styles/Dashboard_in_card.css"
 import { Navigate, useNavigate } from "react-router-dom";
+import dashboardService from "../../Service/DashboardService";
 
 const Dashboard_card = (props) => {
     const { blogcontent, onItemDeleted } = props;
@@ -13,7 +14,7 @@ const Dashboard_card = (props) => {
         try {
             console.log(data.blog_ID);
             const blog_ID = data.blog_ID;
-            const response = await axios.get(`http://localhost:8080/dashboard/deleteBlog/${blog_ID}`, {headers: {Authorization: token}});
+            const response = await dashboardService.dashboardcard_handledelete(blog_ID,token);
             console.log(response.data);
 
             // Call the parent component's callback to handle item deletion
@@ -26,7 +27,7 @@ const Dashboard_card = (props) => {
         try {
             console.log(data.blog_ID);
             const blog_ID = data.blog_ID;
-            const response = await axios.get(`http://localhost:8080/dashboard/restore/${blog_ID}`);
+            const response = await dashboardService.dashboardcard_handlerestore(blog_ID,token);
             console.log(response.data);
 
             // Call the parent component's callback to handle item deletion
@@ -37,12 +38,14 @@ const Dashboard_card = (props) => {
     };
 
     const handleEdit = (data) =>{
-       
             localStorage.setItem("blog_id",data.blog_ID);
             nav('/Dashboard_edit_page');
-            // const blog_ID = data.blog_ID;
-            // const response = axios.get(`http://localhost:8080/dashboard/Edit/`)
         
+    }
+
+    const handleView = (data) => {
+        localStorage.setItem("blog_id",data.blog_ID);
+            nav('/Dashboard_view_page');
     }
 
     return (
@@ -61,9 +64,19 @@ const Dashboard_card = (props) => {
                                         <button onClick={() => { handleEdit(data) }} className="btn btn-warning">Edit</button>
                                         <button onClick={() => { handleDelete(data) }} className="btn btn-warning">Delete</button>
                                     </div>
-                                ) : (
-                                    <button onClick={() => { handleRestore(data) }} className="btn btn-warning">Restore</button>
-                                )}
+                                ) :(
+                                    window.location.pathname === "/Dashboard_all" ? (
+                                        <div className="card-btn">
+                                            <button onClick={() => { handleView(data) }} className="btn btn-warning">View</button>
+                                        </div>
+                                    ) : 
+                                    (
+                                        <div className="card-btn">
+                                            <button onClick={() => { handleRestore(data) }} className="btn btn-warning">Restore</button>
+                                        </div>
+                                    ) 
+                                )
+                                 }
 
                             </div>
                         </div>

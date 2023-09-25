@@ -131,7 +131,7 @@ const fetchBlogContent = async (req, res) => {
                         where: {
 
                             Is_delete: false,
-                            User_ID: user_id.toString()
+                            User_ID: user_id
 
                         }
                     });
@@ -162,7 +162,22 @@ const fetchBlogContent = async (req, res) => {
 
 const fetchallblog = async(req,res) => {
     const token = req.headers.authorization;
-    if(token){}
+    if(token){
+        const verifiedUser = await verifyToken(token);
+        if(verifiedUser){
+            const getData = await Blog.findAll({
+                
+                where: {
+                    Is_delete: false
+                }
+            });
+            
+            res.status(200).json({message: "success of data", blogData: getData})
+        }
+        else{
+            res.status(200).json({message: "Not auth user"})
+        }
+    }
     else{
         res.status(200).json({message: "Not authorized user"})
     }
@@ -184,7 +199,7 @@ const fetchdelete = async (req, res) => {
                     const getData = await Blog.findAll({
                         where: {
                             Is_delete: true,
-                            User_ID: user_id.toString()
+                            User_ID: user_id
 
                         }
                     });
@@ -308,12 +323,16 @@ const getEditBtn = async (req, res) => {
                 console.log(Blog_ID);
                 if (Blog_ID) {
                     const getData = await Blog.findOne({
+                        
                         where: {
                             blog_ID: Blog_ID
                         }
                     })
+                    const userData = await User.findOne({
+                        where:{User_ID: getData.User_ID}
+                    })
 
-                    res.status(200).json({ message: "Success in getting", blogData: getData })
+                    res.status(200).json({ message: "Success in getting", blogData: getData, userData: userData })
 
 
 
@@ -346,4 +365,5 @@ module.exports = {
     fetchdelete,
     getEditBtn,
     verifyToken,
+    fetchallblog,
 }

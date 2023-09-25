@@ -4,23 +4,25 @@ import Dashboard_nav from "./Dashboard_nav";
 import Dashboard_card from "./Dashboard_card";
 import "../../Styles/Dashboard_card.css";
 import { useNavigate } from "react-router-dom";
+import dashboardService from "../../Service/DashboardService";
 
 const Dashboard_home_page = () => {
     const [blogcontent, setBlogcontent] = useState([]);
     const nav = useNavigate()
 
     const fetchBlogContent = async (token) => {
-        try {
-            const response = await axios.get("http://localhost:8080/dashboard/fetch", {headers: {Authorization: token}});
-            console.log(response.data);
-            setBlogcontent(response.data.blogData);
-        } catch (error) {
-            alert("Error: " + error);
+        const response = await dashboardService.dashboardhome(token);
+        if (response.message === "Success of get data") {
+            setBlogcontent(response.blogData);
+        }
+        else {
+            console.log(response);
         }
     };
 
+
     const handleItemDeleted = (deletedItem) => {
-       
+
         setBlogcontent((prevBlogcontent) =>
             prevBlogcontent.filter((item) => item.blog_ID !== deletedItem.blog_ID)
         );
@@ -29,14 +31,14 @@ const Dashboard_home_page = () => {
     useEffect(() => {
         // console.log("in useeffect");
         const token = localStorage.getItem("authToken")
-        if(token!==null){
+        if (token !== null) {
             fetchBlogContent(token);
         }
-        else{
+        else {
             localStorage.clear()
             nav('/')
         }
-        
+
     }, []);
 
     return (

@@ -34,3 +34,7 @@
     float: right;
     margin-left: 3%;
    }
+   .dashboard-view{
+    display: flex;
+    justify-content: space-between;
+   }

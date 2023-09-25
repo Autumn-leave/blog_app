@@ -9,5 +9,6 @@ router.get("/fetchdelete",dashboardController.fetchdelete);
 router.get("/deleteBlog/:blog_ID",dashboardController.deleteBlog);
 router.post("/editBlog",dashboardController.editBlog);
 router.get("/getEditBtn/:Blog_ID",dashboardController.getEditBtn);
+router.get("/fetchallblog",dashboardController.fetchallblog);
 
 module.exports =router;

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Dashboard_nav from "./Dashboard_nav";
+import Dashboard_card from "./Dashboard_card";
+import dashboardService from "../../Service/DashboardService";
 
 
 const Dashboard_all = () => {
     const [allblog, Setallblog] = useState([]);
-    const nav = useNavigate();
 
     const fetch = async(token) => {
-        const response = await axios.post();
-        console.log(response.data);
+        const response = await dashboardService.dashboardall(token);
+        console.log(response.data.blogData);
+        Setallblog(response.data.blogData);
     }
 
     useEffect(()=>{
@@ -19,7 +20,11 @@ const Dashboard_all = () => {
 
     return(
         <div>
-            hi
+            <Dashboard_nav />
+            <div className="Dashboardcontent">
+                <Dashboard_card blogcontent={allblog} />
+            </div>
         </div>
     )
 }
+export default Dashboard_all;

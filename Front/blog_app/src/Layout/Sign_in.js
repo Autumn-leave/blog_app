@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate, Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import '../Styles/Sign_in.css';
+import SigninService from '../Service/SigninService';
 
 const validationSchema = yup.object().shape({
     email: yup.string()
@@ -20,10 +21,7 @@ const Sign_in = () => {
 
     const handleSubmit = async (values) => {
         try {
-            const response1 = await axios.post('http://localhost:8080/users/loginUser', {
-                email: values.email,
-                password: values.password,
-            })
+            const response1 = await SigninService.sign_in(values.email,values.password)
             if (response1.data.message === "Login") {
                 localStorage.setItem('authToken',response1.data.token)
                 toast.success("Login Successfully");

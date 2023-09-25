@@ -7,6 +7,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Styles/Sign_in.css';
 import { ToastContainer, toast } from 'react-toastify';
+import SignupService from '../Service/SignupService';
 
 const validationSchema = yup.object().shape({
   name: yup.string()
@@ -33,14 +34,7 @@ const Sign_up = () => {
   const handleSubmit = async (values, { resetForm }) => {
     { console.log(values) }
     try {
-      const response1 = await axios.post('http://localhost:8080/users/register', {
-
-        name: values.name,
-        username: values.username,
-        password: values.password,
-        phone: values.phone,
-        email: values.email,
-      })
+      const response1 = await SignupService.sign_up(values.name,values.username,values.password,values.phone,values.email)
 
       if (response1.data.message === "empty data") {
         toast.error("All Fields are mandatory")

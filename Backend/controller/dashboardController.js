@@ -9,7 +9,7 @@ const verifyToken = async (token) => {
     try {
         console.log("in verify token");
         const result = await jwt.verify(token, 'meena$17');
-        try{
+        try {
             if (result.logData) {
                 return result.logData;
             }
@@ -18,15 +18,14 @@ const verifyToken = async (token) => {
             }
         }
         catch (error) {
-            if(error.name === "TokenExpiredError")
-            {
+            if (error.name === "TokenExpiredError") {
                 return "TokenExpiredError"
             }
-            else{
+            else {
                 console.log(error);
             }
         }
-        
+
     }
     catch (error) {
         console.log(error);
@@ -61,7 +60,7 @@ const createBlog = async (req, res) => {
     try {
         if (token) {
             const verifiedUser = await verifyToken(token);
-            if (verifiedUser !== "TokenExpiredError" && verifiedUser == false) {
+            if (verifiedUser) {
                 const email = verifiedUser.Email;
                 if (email) {
                     console.log(email);
@@ -94,9 +93,9 @@ const createBlog = async (req, res) => {
                         res.status(200).json({ message: "Empty data" })
                     }
                 }
-                else if(verifiedUser === "TokenExpiredError"){
-                    res.json({message: "Time out!"})
-                }
+                // else if (verifiedUser === "TokenExpiredError") {
+                //     res.json({ message: "Time out!" })
+                // }
                 else {
                     res.json({ message: "not verified user" })
                 }
@@ -160,6 +159,15 @@ const fetchBlogContent = async (req, res) => {
         res.status(500).json({ message: "Internal Error" });
     }
 }
+
+const fetchallblog = async(req,res) => {
+    const token = req.headers.authorization;
+    if(token){}
+    else{
+        res.status(200).json({message: "Not authorized user"})
+    }
+}
+
 const fetchdelete = async (req, res) => {
     const token = req.headers.authorization;
     try {
@@ -290,24 +298,37 @@ const editBlog = async (req, res) => {
 }
 
 const getEditBtn = async (req, res) => {
+    const token = req.headers.authorization;
     try {
-        const  Blog_ID  = req.params.Blog_ID;
-        
-        console.log(Blog_ID);
-        if (Blog_ID) {
-            const getData = await Blog.findOne({
-                where: { 
-                    blog_ID: Blog_ID
-                 }
-            })
-                
+        if (token) {
+            const verifiedUser = await verifyToken(token)
+            if (verifiedUser) {
+                const Blog_ID = req.params.Blog_ID;
+
+                console.log(Blog_ID);
+                if (Blog_ID) {
+                    const getData = await Blog.findOne({
+                        where: {
+                            blog_ID: Blog_ID
+                        }
+                    })
+
                     res.status(200).json({ message: "Success in getting", blogData: getData })
-               
-                
-                   
+
+
+
+                }
+                else {
+                    res.status(200).json({ message: "no data" })
+                }
+            }
+            else {
+                res.status(200).json({ message: "NO token" })
+
+            }
         }
         else {
-            res.status(200).json({ message: "no data" })
+            res.status(200).json({ message: "Not verified user" })
         }
     }
     catch (error) {

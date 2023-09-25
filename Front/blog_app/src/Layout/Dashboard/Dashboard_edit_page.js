@@ -13,7 +13,8 @@ const Dashboard_edit_page = () => {
     const [editorState, setEditorState] =useState(EditorState.createEmpty());
     const getdata = async (Blog_ID) => {
         try {
-            const response = await axios.get(`http://localhost:8080/dashboard/getEditBtn/${Blog_ID}`);
+            const token = localStorage.getItem("authToken")
+            const response = await axios.get(`http://localhost:8080/dashboard/getEditBtn/${Blog_ID}`,{headers: {Authorization: token}});
             console.log(response.data.blogData.Title);
             setBlog(response.data.blogData);
             const contentState = convertFromRaw(JSON.parse(response.data.blogData.Content));

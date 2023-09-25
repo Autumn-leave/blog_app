@@ -1,10 +1,10 @@
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import '../../Styles/Dashboard_new.css'
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Dashboard_nav from "./Dashboard_nav";
 import {EditorState, convertToRaw} from 'draft-js';
 import {Editor} from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import '../../Styles/Dashboard_new.css'
 import { useNavigate } from "react-router-dom";
 
 const Dashboard_new_page = () => {

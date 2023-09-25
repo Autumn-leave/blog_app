@@ -57,7 +57,7 @@ const Dashboard_card = (props) => {
                             <h5>{data.Title}</h5>
                             <div>
                                 {window.location.pathname === "/Dashboard_home_page" ? (
-                                    <div>
+                                    <div className="card-btn">
                                         <button onClick={() => { handleEdit(data) }} className="btn btn-warning">Edit</button>
                                         <button onClick={() => { handleDelete(data) }} className="btn btn-warning">Delete</button>
                                     </div>

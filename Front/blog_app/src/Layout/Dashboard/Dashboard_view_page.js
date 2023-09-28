@@ -4,7 +4,7 @@ import { convertFromRaw, EditorState,convertToRaw } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useNavigate } from "react-router-dom";
-import Dashboard_nav from "./Dashboard_nav";
+import Dashboard_nav from "../../Component/Dashboard_nav";
 import '../../Styles/Dashboard_new.css'
 
 const Dashboard_view_page = () => {

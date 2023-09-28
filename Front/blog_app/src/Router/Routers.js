@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Sign_in from '../Layout/Sign_in';
-import Sign_up from '../Layout/Sign_up';
+import Sign_in from '../Layout/Sign_in/Sign_in';
+import Sign_up from '../Layout/Sign_up/Sign_up';
 import Dashboard_new_page from '../Layout/Dashboard/Dashboard_new_page';
 import Dashboard_edit_page from '../Layout/Dashboard/Dashboard_edit_page';
 import Dashboard_home_page from '../Layout/Dashboard/Dashboard_home_page';

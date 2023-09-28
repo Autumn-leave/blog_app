@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Dashboard_nav from "./Dashboard_nav";
-import Dashboard_card from "./Dashboard_card";
+import Dashboard_nav from "../../Component/Dashboard_nav";
+import Dashboard_card from "../../Component/Dashboard_card";
 import "../../Styles/Dashboard_card.css";
 import { useNavigate } from "react-router-dom";
 import dashboardService from "../../Service/DashboardService";
 
 const Dashboard_home_page = () => {
     const [blogcontent, setBlogcontent] = useState([]);
+    const [searchterm, Setsearchterm] =useState('');
+   
+
     const nav = useNavigate()
 
     const fetchBlogContent = async (token) => {
@@ -28,6 +31,11 @@ const Dashboard_home_page = () => {
         );
     };
 
+
+    const filtereddata = blogcontent.filter((blog) => {
+        return blog.Title.toLowerCase().includes(searchterm.toLowerCase());
+    });
+
     useEffect(() => {
         // console.log("in useeffect");
         const token = localStorage.getItem("authToken")
@@ -41,11 +49,20 @@ const Dashboard_home_page = () => {
 
     }, []);
 
+
     return (
         <div>
             <Dashboard_nav />
+            
             <div className="Dashboardcontent">
-                <Dashboard_card blogcontent={blogcontent} onItemDeleted={handleItemDeleted} />
+            <input
+                type="text"
+                placeholder="search.."
+                className="form-control col-10 src-btn"
+                value={searchterm}
+                onChange={(e) => { Setsearchterm(e.target.value) }}
+            />
+                <Dashboard_card blogcontent={filtereddata} onItemDeleted={handleItemDeleted} />
             </div>
         </div>
     );

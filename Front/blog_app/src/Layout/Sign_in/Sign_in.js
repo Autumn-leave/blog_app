@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate, Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
-import '../Styles/Sign_in.css';
-import SigninService from '../Service/SigninService';
+import '../../Styles/Sign_in.css';
+import SigninService from '../../Service/SigninService';
 
 const validationSchema = yup.object().shape({
     email: yup.string()
@@ -24,6 +24,7 @@ const Sign_in = () => {
             const response1 = await SigninService.sign_in(values.email,values.password)
             if (response1.data.message === "Login") {
                 localStorage.setItem('authToken',response1.data.token)
+                window.sessionStorage.setItem('authToken',response1.data.token)
                 toast.success("Login Successfully");
                 setTimeout(()=>{
                     nav('/Dashboard_home_page');

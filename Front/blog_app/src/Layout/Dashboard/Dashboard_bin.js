@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Dashboard_nav from "./Dashboard_nav";
-import Dashboard_card from "./Dashboard_card";
+import Dashboard_nav from "../../Component/Dashboard_nav";
+import Dashboard_card from "../../Component/Dashboard_card";
 import "../../Styles/Dashboard_card.css";
 import dashboardService from "../../Service/DashboardService";
 import { useNavigate } from "react-router-dom";

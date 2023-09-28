@@ -93,9 +93,6 @@ const createBlog = async (req, res) => {
                         res.status(200).json({ message: "Empty data" })
                     }
                 }
-                // else if (verifiedUser === "TokenExpiredError") {
-                //     res.json({ message: "Time out!" })
-                // }
                 else {
                     res.json({ message: "not verified user" })
                 }

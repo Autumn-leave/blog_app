@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { convertFromRaw } from 'draft-js';
-import "../../Styles/Dashboard_in_card.css"
+import "../Styles/Dashboard_in_card.css"
 import { Navigate, useNavigate } from "react-router-dom";
-import dashboardService from "../../Service/DashboardService";
+import dashboardService from "../Service/DashboardService";
 
 const Dashboard_card = (props) => {
     const { blogcontent, onItemDeleted } = props;

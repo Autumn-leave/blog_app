@@ -5,9 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate, Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import '../Styles/Sign_in.css';
+import '../../Styles/Sign_in.css';
 import { ToastContainer, toast } from 'react-toastify';
-import SignupService from '../Service/SignupService';
+import SignupService from '../../Service/SignupService';
 
 const validationSchema = yup.object().shape({
   name: yup.string()

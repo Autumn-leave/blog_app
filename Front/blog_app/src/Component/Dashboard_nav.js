@@ -4,8 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import '../../Styles/Dashboard_main.css'
-import { Link, useNavigate } from "react-router-dom";
+import '../Styles/Dashboard_main.css'
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard_nav = () => {

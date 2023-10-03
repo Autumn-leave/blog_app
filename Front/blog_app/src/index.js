@@ -6,13 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Routers } from './Router/Routers';
-import Demo from './Layout/Demo';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <Routers />
-    // <Demo />
   // </React.StrictMode>
 );
 

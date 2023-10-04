@@ -16,7 +16,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.sequelize = sequelize;
 db.User_table = require("../model/User_table")(sequelize, Sequelize.DataTypes);
-db.blog_table = require("../model/Blog_table")(sequelize, Sequelize.DataTypes)
+db.blog_table = require("../model/Blog_table")(sequelize, Sequelize.DataTypes);
+db.Like_table = require("../model/Like_table")(sequelize, Sequelize.DataTypes)
 db.User_table.hasMany(db.blog_table, {
   foreignKey: 'User_ID',
 })

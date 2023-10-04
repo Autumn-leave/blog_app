@@ -10,5 +10,8 @@ router.get("/deleteBlog/:blog_ID",dashboardController.deleteBlog);
 router.post("/editBlog",dashboardController.editBlog);
 router.get("/getEditBtn/:Blog_ID",dashboardController.getEditBtn);
 router.get("/fetchallblog",dashboardController.fetchallblog);
+router.post("/LikeRecord",dashboardController.LikeRecord);
+router.get("/DislikeCount",dashboardController.DislikeCount);
+router.get("/LikeCount",dashboardController.LikeCount);
 
 module.exports =router;

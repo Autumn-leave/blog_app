@@ -3,12 +3,99 @@ const { Op, and } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const User = db.User_table;
 const Blog = db.blog_table;
+const Like = db.Like_table;
 
+const UserLikeSts = async (data) => {
+    var check = await Like.findOne({
+        where : {
+            Blog_ID: data.Blog_ID,
+            User_ID: data.User_ID
+        }
+    })
+
+    if(check){
+        return true;
+    }
+    else{
+        return false;
+    }
+    
+}
+
+const LikeCount = async (req,res) => {
+    const {blog_id} = req.query
+    console.log(req.body);
+    console.log(blog_id);
+    Like.count({
+        where: {
+            Like_Record: true,
+            Blog_ID: blog_id
+        }
+    }).then((result) => {
+        res.status(200).json({ message: "successfully done", data: result })
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(200).json({ message: "failed" });
+    })
+}
+
+const DislikeCount = async (req,res) => {
+    const {blog_id} = req.query
+    Like.count({
+        where: {
+            Like_Record: false,
+            Blog_ID: blog_id
+        }
+    }).then((result) => {
+        res.status(200).json({ message: "successfully done", data: result })
+    })
+    .catch((error) => {
+        res.status(200).json({ message: "failed" });
+    })
+}
+
+const LikeRecord = async (req, res) => {
+    const { like, blog_id, user_id } = req.body;
+    var LikeData = {
+        Blog_ID: blog_id,
+        User_ID: user_id,
+        Like_Record: like
+    }
+    var userCheck = await UserLikeSts(LikeData);
+    if(userCheck){
+        await Like.update(
+            {
+                Like_Record: like
+            },
+            {where : {
+                Blog_ID : blog_id,
+                User_ID : user_id
+            }}
+        )
+    }
+    else{
+        await Like.create(LikeData).then(() => {
+            Like.count({
+                where: {
+                    Like_Record: like,
+                    Blog_ID: blog_id
+                }
+            }).then((result) => {
+                res.status(200).json({ message: "successfully done", data: result })
+            })
+            .catch((error) => {
+                res.status(200).json({ message: "failed" });
+            })
+        })
+    }
+}
 
 const verifyToken = async (token) => {
     try {
         console.log("in verify token");
         const result = await jwt.verify(token, 'meena$17');
+
         try {
             if (result.logData) {
                 return result.logData;
@@ -157,26 +244,26 @@ const fetchBlogContent = async (req, res) => {
     }
 }
 
-const fetchallblog = async(req,res) => {
+const fetchallblog = async (req, res) => {
     const token = req.headers.authorization;
-    if(token){
+    if (token) {
         const verifiedUser = await verifyToken(token);
-        if(verifiedUser){
+        if (verifiedUser) {
             const getData = await Blog.findAll({
-                
+
                 where: {
                     Is_delete: false
                 }
             });
-            
-            res.status(200).json({message: "success of data", blogData: getData})
+
+            res.status(200).json({ message: "success of data", blogData: getData })
         }
-        else{
-            res.status(200).json({message: "Not auth user"})
+        else {
+            res.status(200).json({ message: "Not auth user" })
         }
     }
-    else{
-        res.status(200).json({message: "Not authorized user"})
+    else {
+        res.status(200).json({ message: "Not authorized user" })
     }
 }
 
@@ -320,13 +407,13 @@ const getEditBtn = async (req, res) => {
                 console.log(Blog_ID);
                 if (Blog_ID) {
                     const getData = await Blog.findOne({
-                        
+
                         where: {
                             blog_ID: Blog_ID
                         }
                     })
                     const userData = await User.findOne({
-                        where:{User_ID: getData.User_ID}
+                        where: { User_ID: getData.User_ID }
                     })
 
                     res.status(200).json({ message: "Success in getting", blogData: getData, userData: userData })
@@ -363,4 +450,8 @@ module.exports = {
     getEditBtn,
     verifyToken,
     fetchallblog,
+    LikeRecord,
+    UserLikeSts,
+    LikeCount,
+    DislikeCount,
 }

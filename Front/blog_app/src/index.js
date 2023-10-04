@@ -6,14 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Routers } from './Router/Routers';
-import Dummy from './Layout/Dummy';
+import LikeBtn from './Layout/LikeBtn';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     // <Routers />
-    <Dummy />
+    <LikeBtn />
   // </React.StrictMode>
 );
 
